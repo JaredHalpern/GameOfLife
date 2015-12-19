@@ -23,6 +23,8 @@ class GameScene: SKScene {
   var _playButton:SKSpriteNode = SKSpriteNode(imageNamed: "play.png")
   var _pauseButton:SKSpriteNode = SKSpriteNode(imageNamed: "pause.png")
   
+  var _tiles:[[SKSpriteNode]] = []
+  var _margin = 4
   
   override func didMoveToView(view: SKView) {
     
@@ -70,11 +72,17 @@ class GameScene: SKScene {
     _generationLabel.fontColor = UIColor(red: 0, green: 0.2, blue: 0, alpha: 1)
     self.addChild(_generationLabel)
     
-    _populationLabel
+    _populationValueLabel.position = CGPoint(x: 79, y: 175)
+    _populationValueLabel.fontName = "Courier"
+    _populationValueLabel.fontSize = 12
+    _populationValueLabel.fontColor = UIColor(red: 0, green: 0.2, blue: 0, alpha: 1)
+    self.addChild(_populationValueLabel)
     
-    
-    
-    
+    _generationValueLabel.position = CGPoint(x: 79, y: 145)
+    _generationValueLabel.fontName = "Courier"
+    _generationValueLabel.fontSize = 12
+    _generationValueLabel.fontColor = UIColor(red: 0, green: 0.2, blue: 0, alpha: 1)
+    self.addChild(_generationValueLabel)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -83,4 +91,20 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
+  
+  func getTilePosition(row r:Int, column c:Int) -> CGPoint
+  {
+    let tileSize = calculateTileSize()
+    let x = Int(_gridLowerLeftCorner.x) + _margin + (c * (Int(tileSize.width) + _margin))
+    let y = Int(_gridLowerLeftCorner.y) + _margin + (c * (Int(tileSize.height) + _margin))
+    return CGPoint(x: x, y: y)
+  }
+  
+  func calculateTileSize() -> CGSize
+  {
+    let tileWidth = _gridWidth / _numCols - _margin
+    let tileHeight = _gridHeight / _numRows - _margin
+    return CGSize(width: tileWidth, height: tileHeight)
+  }
+  
 }
