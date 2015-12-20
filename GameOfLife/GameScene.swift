@@ -97,23 +97,13 @@ class GameScene: SKScene {
       }
       _tiles.append(tileRow)
     }
-    
-    
-    
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    }
-   
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-    }
+  }
   
   func getTilePosition(row r:Int, column c:Int) -> CGPoint
   {
     let tileSize = calculateTileSize()
     let x = Int(_gridLowerLeftCorner.x) + _margin + (c * (Int(tileSize.width) + _margin))
-    let y = Int(_gridLowerLeftCorner.y) + _margin + (c * (Int(tileSize.height) + _margin))
+    let y = Int(_gridLowerLeftCorner.y) + _margin + (r * (Int(tileSize.height) + _margin))
     return CGPoint(x: x, y: y)
   }
   
@@ -122,6 +112,13 @@ class GameScene: SKScene {
     let tileWidth = _gridWidth / _numCols - _margin
     let tileHeight = _gridHeight / _numRows - _margin
     return CGSize(width: tileWidth, height: tileHeight)
+  }
+
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  }
+  
+  override func update(currentTime: CFTimeInterval) {
+    /* Called before each frame is rendered */
   }
   
 }
