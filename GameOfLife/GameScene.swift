@@ -83,6 +83,23 @@ class GameScene: SKScene {
     _generationValueLabel.fontSize = 12
     _generationValueLabel.fontColor = UIColor(red: 0, green: 0.2, blue: 0, alpha: 1)
     self.addChild(_generationValueLabel)
+    
+    let tileSize = calculateTileSize()
+    for r in 0..<_numRows {
+      var tileRow:[SKSpriteNode] = []
+      for c in 0..<_numCols {
+        let tile = SKSpriteNode(imageNamed: "bubble.png")
+        tile.size = CGSizeMake(tileSize.width, tileSize.height)
+        tile.anchorPoint = CGPointMake(0, 0)
+        tile.position = getTilePosition(row: r, column: c)
+        self.addChild(tile)
+        tileRow.append(tile)
+      }
+      _tiles.append(tileRow)
+    }
+    
+    
+    
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
