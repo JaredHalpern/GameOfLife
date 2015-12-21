@@ -25,6 +25,10 @@ class GameScene: SKScene {
   
   var _tiles:[[Tile]] = []
   var _margin = 4
+  var _isPlaying = false
+  
+  var _prevTime:CFTimeInterval = 0
+  var _timeCounter:CFTimeInterval = 0
   
   override func didMoveToView(view: SKView) {
     
@@ -89,7 +93,7 @@ class GameScene: SKScene {
       var tileRow:[Tile] = []
       for c in 0..<_numCols {
         let tile = Tile(imageNamed: "bubble.png")
-        tile.isAlive = false;
+        tile.isAlive = false
         tile.size = CGSizeMake(tileSize.width, tileSize.height)
         tile.anchorPoint = CGPointMake(0, 0)
         tile.position = getTilePosition(row: r, column: c)
@@ -135,11 +139,58 @@ class GameScene: SKScene {
       if let tile = selectedTile {
         tile.isAlive = !tile.isAlive
       }
+      if CGRectContainsPoint(_playButton.frame, touch.locationInNode(self)) {
+        playButtonPressed()
+      }
+      if CGRectContainsPoint(_pauseButton.frame, touch.locationInNode(self)) {
+        pauseButtonPressed()
+      }
     }
   }
   
-  override func update(currentTime: CFTimeInterval) {
-    /* Called before each frame is rendered */
+  func playButtonPressed() {
+    _isPlaying = true
   }
+  
+  func pauseButtonPressed() {
+    _isPlaying = false
+  }
+  
+  override func update(currentTime: CFTimeInterval) {
+
+    /* Called before each frame is rendered */
+    
+    if _prevTime == 0 {
+      _prevTime = currentTime
+    }
+    if _isPlaying
+    {
+      _timeCounter += currentTime - _prevTime
+      if _timeCounter > 0.5 {
+        _timeCounter = 0
+        timeStep()
+      }
+    }
+    _prevTime = currentTime
+  }
+  
+  func timeStep() {
+    
+    countLivingNeighbors()
+    updateCreatures()
+
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 }
