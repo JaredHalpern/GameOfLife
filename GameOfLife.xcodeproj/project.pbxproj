@@ -14,6 +14,7 @@
 		7F21951E1C2601F900931881 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F21951C1C2601F900931881 /* Main.storyboard */; };
 		7F2195201C2601F900931881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F21951F1C2601F900931881 /* Assets.xcassets */; };
 		7F2195231C2601F900931881 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F2195211C2601F900931881 /* LaunchScreen.storyboard */; };
+		7F2894471C276C52004A6B72 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2894461C276C52004A6B72 /* Tile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7F21951F1C2601F900931881 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F2195221C2601F900931881 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F2195241C2601F900931881 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F2894461C276C52004A6B72 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		7F2195131C2601F900931881 /* GameOfLife */ = {
 			isa = PBXGroup;
 			children = (
+				7F2894481C276D76004A6B72 /* Game Objects */,
 				7F2195141C2601F900931881 /* AppDelegate.swift */,
 				7F2195161C2601F900931881 /* GameScene.sks */,
 				7F2195181C2601F900931881 /* GameScene.swift */,
@@ -68,6 +71,14 @@
 				7F2195241C2601F900931881 /* Info.plist */,
 			);
 			path = GameOfLife;
+			sourceTree = "<group>";
+		};
+		7F2894481C276D76004A6B72 /* Game Objects */ = {
+			isa = PBXGroup;
+			children = (
+				7F2894461C276C52004A6B72 /* Tile.swift */,
+			);
+			name = "Game Objects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +156,7 @@
 				7F2195191C2601F900931881 /* GameScene.swift in Sources */,
 				7F21951B1C2601F900931881 /* GameViewController.swift in Sources */,
 				7F2195151C2601F900931881 /* AppDelegate.swift in Sources */,
+				7F2894471C276C52004A6B72 /* Tile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +304,7 @@
 				7F2195291C2601F900931881 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

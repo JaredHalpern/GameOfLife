@@ -20,22 +20,22 @@ class GameScene: SKScene {
   let _generationLabel:SKLabelNode = SKLabelNode(text: "Generation")
   var _populationValueLabel:SKLabelNode = SKLabelNode(text: "0")
   var _generationValueLabel:SKLabelNode = SKLabelNode(text: "0")
-  var _playButton:SKSpriteNode = SKSpriteNode(imageNamed: "play.png")
-  var _pauseButton:SKSpriteNode = SKSpriteNode(imageNamed: "pause.png")
+  var _playButton:Tile = Tile(imageNamed: "play.png")
+  var _pauseButton:Tile = Tile(imageNamed: "pause.png")
   
-  var _tiles:[[SKSpriteNode]] = []
+  var _tiles:[[Tile]] = []
   var _margin = 4
   
   override func didMoveToView(view: SKView) {
     
-    let background = SKSpriteNode(imageNamed: "background.png")
+    let background = Tile(imageNamed: "background.png")
     background.anchorPoint = CGPoint(x: 0, y: 0)
     background.size = self.size
     background.zPosition = -2
     background.position = CGPoint(x: 0, y: 0)
     self.addChild(background)
     
-    let gridBackground = SKSpriteNode(imageNamed: "grid.png")
+    let gridBackground = Tile(imageNamed: "grid.png")
     gridBackground.size = CGSize(width: _gridWidth, height: _gridHeight)
     gridBackground.zPosition = -1
     gridBackground.anchorPoint = CGPoint(x: 0, y: 0)
@@ -49,12 +49,12 @@ class GameScene: SKScene {
     _pauseButton.setScale(0.5)
     self.addChild(_pauseButton)
     
-    let balloon = SKSpriteNode(imageNamed: "balloon.png")
+    let balloon = Tile(imageNamed: "balloon.png")
     balloon.position = CGPoint(x: 79, y: 170)
     balloon.setScale(0.5)
     self.addChild(balloon)
     
-    let microscope = SKSpriteNode(imageNamed: "microscope.png")
+    let microscope = Tile(imageNamed: "microscope.png")
     microscope.position = CGPoint(x: 79, y: 70)
     microscope.setScale(0.4)
     self.addChild(microscope)
@@ -86,9 +86,9 @@ class GameScene: SKScene {
     
     let tileSize = calculateTileSize()
     for r in 0..<_numRows {
-      var tileRow:[SKSpriteNode] = []
+      var tileRow:[Tile] = []
       for c in 0..<_numCols {
-        let tile = SKSpriteNode(imageNamed: "bubble.png")
+        let tile = Tile(imageNamed: "bubble.png")
         tile.size = CGSizeMake(tileSize.width, tileSize.height)
         tile.anchorPoint = CGPointMake(0, 0)
         tile.position = getTilePosition(row: r, column: c)
