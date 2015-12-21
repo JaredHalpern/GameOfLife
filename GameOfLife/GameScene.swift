@@ -89,6 +89,7 @@ class GameScene: SKScene {
       var tileRow:[Tile] = []
       for c in 0..<_numCols {
         let tile = Tile(imageNamed: "bubble.png")
+        tile.isAlive = false;
         tile.size = CGSizeMake(tileSize.width, tileSize.height)
         tile.anchorPoint = CGPointMake(0, 0)
         tile.position = getTilePosition(row: r, column: c)
@@ -114,7 +115,27 @@ class GameScene: SKScene {
     return CGSize(width: tileWidth, height: tileHeight)
   }
 
+  func isValidTile(row r: Int, column c:Int) -> Bool {
+    return r >= 0 && r < _numRows && c >= 0 && c < _numCols
+  }
+  
+  func getTileAtPosition(xPos x: Int, yPos y: Int) -> Tile? {
+    let r:Int = Int( CGFloat(y - (Int(_gridLowerLeftCorner.y) + _margin)) / CGFloat(_gridHeight) * CGFloat(_numRows))
+    let c:Int = Int( CGFloat(x - (Int(_gridLowerLeftCorner.x) + _margin)) / CGFloat(_gridWidth) * CGFloat(_numCols))
+    if isValidTile(row: r, column: c) {
+      return _tiles[r][c]
+    } else {
+      return nil
+    }
+  }
+  
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    for touch: AnyObject in touches {
+      let selectedTile:Tile? = getTileAtPosition(xPos: Int(touch.locationInNode(self).x), yPos: Int(touch.locationInNode(self).y))
+      if let tile = selectedTile {
+        tile.isAlive = !tile.isAlive
+      }
+    }
   }
   
   override func update(currentTime: CFTimeInterval) {
