@@ -30,6 +30,21 @@ class GameScene: SKScene {
   var _prevTime:CFTimeInterval = 0
   var _timeCounter:CFTimeInterval = 0
   
+  var _population:Int = 0 {
+    didSet {
+      _populationValueLabel.text = "\(_population)"
+    }
+  }
+  
+  var _generation:Int = 0 {
+    didSet {
+      _generationValueLabel.text = "\(_generation)"
+    }
+  }
+  
+  
+  
+  
   override func didMoveToView(view: SKView) {
     
     let background = Tile(imageNamed: "background.png")
@@ -89,6 +104,7 @@ class GameScene: SKScene {
     self.addChild(_generationValueLabel)
     
     let tileSize = calculateTileSize()
+    
     for r in 0..<_numRows {
       var tileRow:[Tile] = []
       for c in 0..<_numCols {
@@ -100,8 +116,10 @@ class GameScene: SKScene {
         self.addChild(tile)
         tileRow.append(tile)
       }
+      
       _tiles.append(tileRow)
     }
+    
   }
   
   func getTilePosition(row r:Int, column c:Int) -> CGPoint
@@ -118,7 +136,7 @@ class GameScene: SKScene {
     let tileHeight = _gridHeight / _numRows - _margin
     return CGSize(width: tileWidth, height: tileHeight)
   }
-
+  
   func isValidTile(row r: Int, column c:Int) -> Bool {
     return r >= 0 && r < _numRows && c >= 0 && c < _numCols
   }
@@ -138,6 +156,11 @@ class GameScene: SKScene {
       let selectedTile:Tile? = getTileAtPosition(xPos: Int(touch.locationInNode(self).x), yPos: Int(touch.locationInNode(self).y))
       if let tile = selectedTile {
         tile.isAlive = !tile.isAlive
+        if tile.isAlive {
+          _population++
+        } else {
+          _population--
+        }
       }
       if CGRectContainsPoint(_playButton.frame, touch.locationInNode(self)) {
         playButtonPressed()
@@ -157,7 +180,7 @@ class GameScene: SKScene {
   }
   
   override func update(currentTime: CFTimeInterval) {
-
+    
     /* Called before each frame is rendered */
     
     if _prevTime == 0 {
@@ -178,11 +201,55 @@ class GameScene: SKScene {
     
     countLivingNeighbors()
     updateCreatures()
-
+    _generation++
   }
   
+  func countLivingNeighbors() {
+    
+    for r in 0..<_numRows {
+      for c in 0..<_numCols {
+        
+        var numLivingNeighbors:Int = 0
+        
+        // check the 8 surrounding tiles
+        
+        for i in (r-1)...(r+1) {
+          for j in (c-1)...(c+1) {
+            if ( !((r == i) && (c == j)) && isValidTile(row: i, column: j)) {
+              if _tiles[i][j].isAlive {
+                // set the tiles num of living neighbors
+                numLivingNeighbors++
+              }
+            }
+          }
+        }
+        
+        _tiles[r][c].numLivingNeighbors = numLivingNeighbors
+      }
+    }
+  }
   
-  
+  func updateCreatures()
+  {
+    // determine if alive or dead based on neighbors
+    // A tile with less than 2 or more than 4 living neighbors will die, and a tile with exactly 3 living neighbors will become alive:
+    var numAlive = 0
+    for r in 0..<_numRows {
+      for c in 0..<_numCols {
+        
+        let tile:Tile = _tiles[r][c]
+        if tile.numLivingNeighbors == 3 {
+          tile.isAlive = true
+        } else if tile.numLivingNeighbors < 2 || tile.numLivingNeighbors > 3 {
+          tile.isAlive = false
+        }
+        if tile.isAlive {
+          numAlive++
+        }
+      }
+    }
+    _population = numAlive
+  }
   
   
   
