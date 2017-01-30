@@ -45,7 +45,7 @@ class GameScene: SKScene {
   
   
   
-  override func didMoveToView(view: SKView) {
+  override func didMove(to view: SKView) {
     
     let background = Tile(imageNamed: "background.png")
     background.anchorPoint = CGPoint(x: 0, y: 0)
@@ -110,8 +110,8 @@ class GameScene: SKScene {
       for c in 0..<_numCols {
         let tile = Tile(imageNamed: "bubble.png")
         tile.isAlive = false
-        tile.size = CGSizeMake(tileSize.width, tileSize.height)
-        tile.anchorPoint = CGPointMake(0, 0)
+        tile.size = CGSize(width: tileSize.width, height: tileSize.height)
+        tile.anchorPoint = CGPoint(x: 0, y: 0)
         tile.position = getTilePosition(row: r, column: c)
         self.addChild(tile)
         tileRow.append(tile)
@@ -151,21 +151,21 @@ class GameScene: SKScene {
     }
   }
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     for touch: AnyObject in touches {
-      let selectedTile:Tile? = getTileAtPosition(xPos: Int(touch.locationInNode(self).x), yPos: Int(touch.locationInNode(self).y))
+      let selectedTile:Tile? = getTileAtPosition(xPos: Int(touch.location(in: self).x), yPos: Int(touch.location(in: self).y))
       if let tile = selectedTile {
         tile.isAlive = !tile.isAlive
         if tile.isAlive {
-          _population++
+          _population += 1
         } else {
-          _population--
+          _population -= 1
         }
       }
-      if CGRectContainsPoint(_playButton.frame, touch.locationInNode(self)) {
+      if _playButton.frame.contains(touch.location(in: self)) {
         playButtonPressed()
       }
-      if CGRectContainsPoint(_pauseButton.frame, touch.locationInNode(self)) {
+      if _pauseButton.frame.contains(touch.location(in: self)) {
         pauseButtonPressed()
       }
     }
@@ -179,7 +179,7 @@ class GameScene: SKScene {
     _isPlaying = false
   }
   
-  override func update(currentTime: CFTimeInterval) {
+  override func update(_ currentTime: TimeInterval) {
     
     /* Called before each frame is rendered */
     
@@ -201,7 +201,7 @@ class GameScene: SKScene {
     
     countLivingNeighbors()
     updateCreatures()
-    _generation++
+    _generation += 1
   }
   
   func countLivingNeighbors() {
@@ -218,7 +218,7 @@ class GameScene: SKScene {
             if ( !((r == i) && (c == j)) && isValidTile(row: i, column: j)) {
               if _tiles[i][j].isAlive {
                 // set the tiles num of living neighbors
-                numLivingNeighbors++
+                numLivingNeighbors += 1
               }
             }
           }
@@ -244,7 +244,7 @@ class GameScene: SKScene {
           tile.isAlive = false
         }
         if tile.isAlive {
-          numAlive++
+          numAlive += 1
         }
       }
     }

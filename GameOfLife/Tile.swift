@@ -13,7 +13,7 @@ class Tile: SKSpriteNode {
 
   var isAlive:Bool = false {
     didSet {
-      self.hidden = !isAlive
+      self.isHidden = !isAlive
     }
   }
   
